@@ -1,3 +1,139 @@
+<!-- ============================
+  CUSTOM STYLES + HERO (paste after front matter)
+  Works with GitHub Pages / jekyll-theme-architect
+  ================================= -->
+<style>
+:root{
+  --accent:#0ea5a4; /* teal-ish */
+  --accent-2:#0f172a;
+  --muted:#6b7280;
+  --card-bg: #ffffff;
+  --glass: rgba(255,255,255,0.06);
+  --radius: 12px;
+  --maxw: 1100px;
+  --shadow: 0 8px 24px rgba(2,6,23,0.12);
+  --glass-border: rgba(255,255,255,0.06);
+}
+
+body {
+  background: linear-gradient(180deg, #fbfdff 0%, #f4fbfb 60%);
+  color: #0f172a;
+}
+
+/* HERO */
+.hero {
+  max-width: var(--maxw);
+  margin: 28px auto;
+  padding: 28px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(14,165,164,0.06), rgba(14,165,164,0.02));
+  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 18px;
+  align-items: center;
+}
+.hero h1 { margin:0; font-size: 1.9rem; letter-spacing: -0.5px; }
+.hero p { margin:8px 0 0 0; color:var(--muted); font-size:0.98rem; }
+
+/* avatar */
+.hero .avatar {
+  width: 220px; height: 220px; border-radius: 14px;
+  background: linear-gradient(135deg,#0ea5a4,#0284c7);
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; font-weight:700; font-size:1.05rem;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.12);
+}
+
+/* CTA buttons */
+.cta-row { margin-top:14px; display:flex; gap:10px; align-items:center; }
+.btn {
+  display:inline-block; padding:10px 14px; border-radius:8px; font-weight:600;
+  text-decoration:none; color:white; background:var(--accent); box-shadow:none;
+}
+.btn.secondary { background: transparent; color:var(--accent-2); border:1px solid rgba(15,23,42,0.06); }
+
+/* cards grid */
+.cards { max-width: var(--maxw); margin: 18px auto; display:grid; grid-template-columns: repeat(3,1fr); gap:14px; }
+@media (max-width:1000px){ .hero { grid-template-columns:1fr; } .cards { grid-template-columns: repeat(2,1fr);} }
+@media (max-width:700px){ .cards { grid-template-columns: 1fr;} }
+
+/* card */
+.card { background: white; border-radius:12px; padding:14px; box-shadow: 0 6px 18px rgba(15,23,42,0.06); border:1px solid rgba(15,23,42,0.03); }
+.card h3{margin:0 0 8px 0; font-size:1.05rem}
+.card p{margin:0;color:var(--muted);font-size:0.92rem}
+
+/* tables */
+table { border-collapse: collapse; width:100%; border-radius:8px; overflow:hidden; }
+table th { text-align:left; padding:10px; background:#0ea5a4; color:#fff; font-weight:600; }
+table td { padding:10px; border-bottom: 1px solid #f3f4f6; font-size:0.95rem; color: #0f172a; }
+table tr:nth-child(even) td { background: #fbfdff; }
+
+/* TOC sticky */
+.toc-wrap{ position: sticky; top:18px; align-self:start; }
+
+/* callouts */
+.callout { background: #f8fafc; border-left:4px solid var(--accent); padding:12px 14px; border-radius:8px; color:var(--muted); margin:12px 0; }
+
+/* footer */
+.site-footer { max-width:var(--maxw); margin:30px auto; padding:18px; color:var(--muted); text-align:center; font-size:0.95rem; }
+</style>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <h1>📘 Catálogo Vivo — Estudos AWS</h1>
+    <p><strong>Lucas Gabriel Santos Araujo</strong> · Repositório de labs, PoCs e trilhas AWS (Skill Builder). Centralize, consulte e publique seu aprendizado.</p>
+
+    <div class="cta-row">
+      <a class="btn" href="#-2-laboratórios-aws-realizados">Ver Labs</a>
+      <a class="btn secondary" href="https://github.com/<seu-usuario>/estudos-aws" target="_blank">Abrir repositório</a>
+      <a class="btn secondary" href="#-5-próximos-estudos--pendências">Próximos estudos</a>
+    </div>
+
+    <div style="margin-top:12px">
+      <!-- shields: exemplo (altere as urls) -->
+      <img src="https://img.shields.io/badge/Labs-40-blue?style=flat-square" alt="labs" />
+      <img src="https://img.shields.io/badge/Lang-English-lightgrey?style=flat-square" alt="lang" />
+      <img src="https://img.shields.io/badge/Platform-AWS-orange?style=flat-square" alt="aws" />
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px;align-items:center;">
+    <!-- Coloque um avatar em assets/avatar.png ou substitua texto -->
+    <div class="avatar">
+      Lucas<br/>Araujo
+    </div>
+    <div style="width:100%; text-align:center; font-size:0.92rem; color:var(--muted);">
+      Publicado com GitHub Pages · Tema: Architect
+    </div>
+  </div>
+</section>
+
+<!-- CARDS -->
+<div class="cards">
+  <div class="card">
+    <h3>📚 Labs & Cursos</h3>
+    <p>Lista completa de Builder Labs, cursos e planos de estudo — prontos para consulta rápida.</p>
+  </div>
+  <div class="card">
+    <h3>🔭 Projetos & PoCs</h3>
+    <p>Arquiteturas, migrações e integrações (ex: Zabbix, CloudFront, Aurora) com anotações práticas.</p>
+  </div>
+  <div class="card">
+    <h3>🧭 FinOps & Observability</h3>
+    <p>Dicas de otimização de custos, caching e monitoramento com CloudWatch, Grafana e Zabbix.</p>
+  </div>
+</div>
+
+<!-- small callout -->
+<div style="max-width:var(--maxw); margin:12px auto;">
+  <div class="callout">
+    ⚠️ <strong>Nota:</strong> Os links para AWS Skill Builder exigem login AWS. Os conteúdos listados são para fins educacionais.
+  </div>
+</div>
+
+
 ---
 title: "📘 Portifolio — Estudos AWS"
 layout: default
