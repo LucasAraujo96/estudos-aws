@@ -267,6 +267,44 @@ A metodologia aplicada combina experimentação em ambientes de laboratório (Sk
 - Para **SPAs/rotas amigáveis**, use **Custom Error Responses** no CloudFront: mapear **403/404 → /index.html** retornando **200** (e ajuste TTL de erros).  
 - Caso precise do website endpoint (redireção/index automático), não use OAC; em vez disso, controle acesso por políticas públicas restritas + WAF.
 
+### Data Lake no S3 + Glue + Athena + Lambda
+- **Arquitetura-base:** dados brutos em **S3 (bronze)** → transformação com **AWS Glue (ETL)** → dados curados **Parquet/Partitioned (silver/gold)** → **AWS Glue Data Catalog** como metastore → **Athena** para SQL *serverless* → **Lambda** consumindo resultados/eventos.
+- **Formato & desempenho:** converter **CSV → Parquet** e **compactar (Snappy/Zstd)** reduz custo de leitura no Athena e acelera consultas.
+- **Particionamento:** pastas por **ano=AAAA/mês=MM/dia=DD** (ou por *business key*). Evite **milhares de arquivos pequenos** (*small files problem*); use **coalesce/repartition** no ETL.
+- **Catálogo & Crawler:** use **Glue Crawler** para inferir schema rapidamente, mas **congele schema** em produção (evolução controlada, compatibilidade).
+- **Athena:** prefira **CTAS/INSERT INTO** para materializar consultas; ative **result reuse** e controle **workgroup** com limites de gasto.
+- **Eventos & orquestração:** **EventBridge** para agendar ETLs (ex.: a cada 15 min) e acionar **Lambda** pós‑gravação no S3 (**S3 Event Notifications**). Para **atualizações esporádicas** (apenas para manter dados e painéis atualizados), é possível **executar cargas on‑demand** sem agendamento e, quando necessário, alternar para **coletas periódicas** no data lake.
+- **Segurança:** **KMS** (SSE-KMS) nos buckets, **Lake Formation** para permissões coluna/tabela, **IAM least privilege**, **VPC endpoints** (S3/Glue).
+- **Observabilidade & qualidade:** **CloudWatch Logs/Metrics** para Glue/Lambda, **Athena Query Metrics**, validação com **Deequ/Great Expectations** (opcional).
+- **FinOps:** particione bem (filtrar por partições!), **Parquet + projeção de partições** no Athena, **S3 Lifecycle** para arquivar camadas antigas (IA/Glacier).
+
+**Padrões práticos do seu lab**
+- Pipeline **CSV → Parquet** no Glue com **partitioning por data** e catálogo no **Glue Data Catalog**.
+- **Athena** consultando a camada curada e **Lambda** consumindo resultados/arquivos para *post‑processing* (ex.: publicação em API, notificações ou carga em banco).
+- No lab, as cargas foram **on‑demand (sem agendamento)** para atualizar **dados e painéis** quando necessário; **existe a possibilidade** de adotar **coletas periódicas** (ex.: a cada 15 min com EventBridge) conforme a necessidade de atualização.
+- 
+### CI/CD para ECS — CodePipeline + CodeBuild + ECR (+ Lambda)
+- **Arquitetura do lab:** *Dev push* → **CodeCommit/GitHub** → **CodePipeline** (gatilho) → **CodeBuild** (build/teste, `docker build` + `docker push` p/ **Amazon ECR**) → **Implantação no ECS** (service Fargate/EC2). **Lambda** usado como etapa custom (ex.: pós‑deploy, version tag, invalidação de cache/aviso).
+- **Fluxo detalhado:**
+1. **Source**: repositório (`main`/`develop`) com *webhook*.
+2. **Build (CodeBuild)**: usa `buildspec.yml` para: *lint/test*, *build image*, *login ECR*, *tag (commit SHA/semver)* e *push*.
+3. **Image Registry (ECR)**: repositório versionado, **image scanning** ativada, *lifecycle policy* para limpar imagens antigas.
+4. **Deploy (ECS)**: atualização do **task definition** com `image: <account>.dkr.ecr...:<tag>` e **service** com *rolling update* ou **Blue/Green** (via **CodeDeploy for ECS**, opcional).
+5. **Pós‑deploy (Lambda/Step Functions)**: validações, *smoke tests*, *notify* (SNS/Slack), *feature flags* e ações auxiliares (ex.: migração de schema segura).
+- **buildspec.yml (dicas):** use *phases* (`install/build/post_build`), *env vars* do **Parameter Store/Secrets Manager**, e **cache** para dependências. Publique *artifacts* mínimos (manifesto/`imagedefinitions.json` quando usar CodeDeploy ECS).
+- **Segurança & IAM:** *least‑privilege* por estágio; **ECR** com política de push/pull restrita; **KMS** p/ segredos; **VPC endpoints** p/ ECS/ECR/Logs em ambientes privados.
+- **Confiabilidade:** **health checks** no ALB, *rollback automático* via CodeDeploy (Blue/Green com *test listener* + *alarms* no CloudWatch).
+- **Observabilidade:** logs do **CodeBuild** no CloudWatch, **ECS Exec** para diagnóstico, **X-Ray** opcional; métricas de *deployment* no CodeDeploy/CloudWatch.
+- **FinOps:** use **Fargate Spot** quando possível, **lifecycle ECR**, *build compute type* adequado no CodeBuild, e *build minutes* otimizados (cache e camadas Docker).
+- **Extensões úteis:** *Manual Approval* no CodePipeline entre *stages*, **multi‑account** (assume‑role) para promover `dev → hml → prd`, e *gates* de qualidade (SAST/scan de imagem) antes do deploy.
+
+
+**Padrões práticos do seu lab**
+- Repositório com `Dockerfile` e `buildspec.yml` padronizados.
+- **Tagging** por `git commit SHA` e por **semver** (ex.: `v1.3.2`), ambos enviados ao ECR.
+- Atualização automática do **task definition** e *rolling update* do **ECS service** com **min/max percent** seguros.
+- Etapa **Lambda** para pós‑deploy (ex.: notificação e invalidação controlada), mantendo pipeline idempotente.
+
 ### Auto Scaling (EC2/ECS)
 - **ASG:** define **min/desired/max** com políticas **target tracking**, **step** e **scheduled**.  
 - **Disparo por métricas:** **CPU**, **ALB RequestCount**, **SQS QueueLength**, métricas custom.  
