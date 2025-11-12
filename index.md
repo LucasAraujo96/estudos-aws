@@ -1,14 +1,14 @@
 ---
-title: "📘 Catálogo Vivo — Estudos AWS"
+title: "📘 Portifolio — Estudos AWS"
 layout: default
 ---
 
 > ⚠️ *Nota:* Este catálogo contém apenas estudos e laboratórios públicos realizados na AWS Skill Builder.  
 > Nenhuma informação de clientes, credenciais ou ambientes privados é divulgada aqui.
 
-# 📘 Catálogo Vivo — Estudos AWS
+# 📘 Portifolio — Estudos AWS
 
-**Autor:** Lucas Gabriel Santos Araujo  
+**Autor:** Lucas Araujo  
 **Início:** 2025  
 **Objetivo:** Centralizar os estudos práticos, laboratórios e projetos realizados na AWS, servindo como repositório de conhecimento pessoal e técnico para futuras consultas e reaproveitamento em projetos reais.
 
