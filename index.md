@@ -9,57 +9,125 @@ layout: default
 <style>
 :root {
   --accent:#0ea5a4;
-  --muted:#6b7280;
-  --card-bg:#fff;
+  --muted:#cbd5e1;
   --radius:12px;
   --maxw:1100px;
-  --shadow:0 8px 24px rgba(2,6,23,0.12);
+  --shadow:0 8px 24px rgba(2,6,23,0.4);
 }
+
+/* animação do fundo */
+@keyframes bgShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* fundo geral */
 body {
-  background: linear-gradient(180deg,#fbfdff 0%,#f4fbfb 80%);
-  color:#0f172a;
-  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(-45deg, #1b263b, #0ea5a4, #3b82f6, #7c3aed);
+  background-size: 400% 400%;
+  animation: bgShift 18s ease infinite;
+  color: #f8fafc;
+  font-family: "Segoe UI", sans-serif;
 }
-/* hero */
+
+/* HERO + cards + notas */
+.hero, .card, .note {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #f8fafc;
+}
+
+/* título do hero */
 .hero {
-  max-width:var(--maxw);
-  margin:28px auto;
-  padding:28px;
-  border-radius:var(--radius);
-  background:linear-gradient(135deg,rgba(14,165,164,0.06),rgba(14,165,164,0.02));
-  box-shadow:var(--shadow);
-  display:grid;
-  grid-template-columns:1fr 220px;
-  gap:20px;
-  align-items:center;
+  max-width: var(--maxw);
+  margin: 28px auto;
+  padding: 28px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 20px;
+  align-items: center;
 }
-.hero h1 {margin:0;font-size:2rem;}
-.hero p {margin-top:8px;color:var(--muted);}
+.hero h1 { margin: 0; font-size: 2rem; color: #f1f5f9; }
+.hero p { margin-top: 8px; color: var(--muted); }
+
+/* avatar */
 .avatar {
-  width:220px;height:220px;
-  border-radius:14px;
-  background:linear-gradient(135deg,#0ea5a4,#0284c7);
-  display:flex;align-items:center;justify-content:center;
-  color:#fff;font-weight:700;font-size:1.1rem;
-  box-shadow:0 8px 30px rgba(2,6,23,0.12);
+  width: 220px; height: 220px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #0ea5a4, #0284c7);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 1.1rem;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.4);
 }
+
+/* botões */
 .btn {
-  display:inline-block;padding:10px 14px;margin-top:12px;
-  border-radius:8px;font-weight:600;text-decoration:none;
-  color:#fff;background:#0ea5a4;
+  display: inline-block;
+  padding: 10px 14px;
+  margin-top: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #fff;
+  background: #0ea5a4;
+  transition: all 0.2s ease;
 }
-.btn.secondary {background:transparent;color:#0f172a;border:1px solid #0ea5a4;}
-/* tables */
-table {border-collapse:collapse;width:100%;border-radius:8px;overflow:hidden;}
-th {background:#0ea5a4;color:#fff;padding:10px;text-align:left;}
-td {padding:10px;border-bottom:1px solid #e5e7eb;}
-tr:nth-child(even){background:#f9fafb;}
-/* callout */
-.note {background:#f8fafc;border-left:4px solid #0ea5a4;padding:12px 14px;border-radius:8px;margin:12px 0;color:#4b5563;}
+.btn:hover { background: #0891b2; transform: translateY(-1px); }
+.btn.secondary {
+  background: transparent;
+  color: #f1f5f9;
+  border: 1px solid #38bdf8;
+}
+
+/* tabelas */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+th {
+  background: rgba(14,165,164,0.8);
+  color: #f1f5f9;
+  padding: 10px;
+  text-align: left;
+}
+td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  color: #e2e8f0;
+}
+tr:nth-child(even) td {
+  background: rgba(255,255,255,0.04);
+}
+
+/* nota */
+.note {
+  background: rgba(255,255,255,0.08);
+  border-left: 4px solid #38bdf8;
+  color: #e2e8f0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin: 12px 0;
+}
+
 /* footer */
-.footer {text-align:center;margin:40px auto 20px;color:#6b7280;font-size:0.9rem;}
-@media(max-width:900px){.hero{grid-template-columns:1fr;}}
+.footer {
+  text-align: center;
+  margin: 40px auto 20px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+a { color: #38bdf8; }
+@media(max-width:900px){ .hero{grid-template-columns:1fr;} }
 </style>
+
 
 <section class="hero">
   <div>
