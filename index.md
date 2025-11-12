@@ -1,16 +1,81 @@
 ---
-title: "📘 Portifolio — Estudos AWS"
+title: "📘 Portfólio — Estudos AWS"
 layout: default
 ---
 
-> ⚠️ *Nota:* Este catálogo contém apenas estudos e laboratórios públicos realizados na AWS Skill Builder.  
-> Nenhuma informação de clientes, credenciais ou ambientes privados é divulgada aqui.
+<!-- ================================================
+ 🔹 HERO + VISUAL STYLING (compatível com GitHub Pages Architect)
+ ================================================= -->
+<style>
+:root {
+  --accent:#0ea5a4;
+  --muted:#6b7280;
+  --card-bg:#fff;
+  --radius:12px;
+  --maxw:1100px;
+  --shadow:0 8px 24px rgba(2,6,23,0.12);
+}
+body {
+  background: linear-gradient(180deg,#fbfdff 0%,#f4fbfb 80%);
+  color:#0f172a;
+  font-family: 'Segoe UI', sans-serif;
+}
+/* hero */
+.hero {
+  max-width:var(--maxw);
+  margin:28px auto;
+  padding:28px;
+  border-radius:var(--radius);
+  background:linear-gradient(135deg,rgba(14,165,164,0.06),rgba(14,165,164,0.02));
+  box-shadow:var(--shadow);
+  display:grid;
+  grid-template-columns:1fr 220px;
+  gap:20px;
+  align-items:center;
+}
+.hero h1 {margin:0;font-size:2rem;}
+.hero p {margin-top:8px;color:var(--muted);}
+.avatar {
+  width:220px;height:220px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#0ea5a4,#0284c7);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:700;font-size:1.1rem;
+  box-shadow:0 8px 30px rgba(2,6,23,0.12);
+}
+.btn {
+  display:inline-block;padding:10px 14px;margin-top:12px;
+  border-radius:8px;font-weight:600;text-decoration:none;
+  color:#fff;background:#0ea5a4;
+}
+.btn.secondary {background:transparent;color:#0f172a;border:1px solid #0ea5a4;}
+/* tables */
+table {border-collapse:collapse;width:100%;border-radius:8px;overflow:hidden;}
+th {background:#0ea5a4;color:#fff;padding:10px;text-align:left;}
+td {padding:10px;border-bottom:1px solid #e5e7eb;}
+tr:nth-child(even){background:#f9fafb;}
+/* callout */
+.note {background:#f8fafc;border-left:4px solid #0ea5a4;padding:12px 14px;border-radius:8px;margin:12px 0;color:#4b5563;}
+/* footer */
+.footer {text-align:center;margin:40px auto 20px;color:#6b7280;font-size:0.9rem;}
+@media(max-width:900px){.hero{grid-template-columns:1fr;}}
+</style>
 
-# 📘 Portifolio — Estudos AWS
+<section class="hero">
+  <div>
+    <h1>📘 Portfólio — Estudos AWS</h1>
+    <p><strong>Lucas Araujo</strong> · Catálogo de laboratórios, cursos e PoCs realizados no <em>AWS Skill Builder</em>.  
+    Centraliza experiências práticas e aprendizados em arquitetura, observabilidade e FinOps.</p>
+    <a href="#-2-laboratórios-aws-realizados" class="btn">📂 Ver Labs</a>
+    <a href="#-5-próximos-estudos--pendências" class="btn secondary">📈 Próximos Estudos</a>
+  </div>
+  <div class="avatar">Lucas<br>Araujo</div>
+</section>
 
-**Autor:** Lucas Araujo  
-**Início:** 2025  
-**Objetivo:** Centralizar os estudos práticos, laboratórios e projetos realizados na AWS, servindo como repositório de conhecimento pessoal e técnico para futuras consultas e reaproveitamento em projetos reais.
+<div class="note">
+⚠️ <strong>Nota:</strong> Este portfólio contém apenas estudos e laboratórios públicos realizados na AWS Skill Builder.  
+Nenhuma informação de clientes, credenciais ou ambientes privados é divulgada aqui.
+</div>
 
 ---
 
