@@ -1,10 +1,7 @@
-theme: jekyll-theme-cayman
+theme: jekyll-theme-architect
 title: "Estudos AWS"
-description: "Catálogo Vivo — Laboratórios, PoCs e aprendizados AWS"
+description: "Portifolio — Laboratórios, PoCs e Aprendizados AWS"
 show_downloads: false
 github:
   is_project_page: true
 markdown: GFM
-remote_theme: pages-themes/architect@v0.2.0
-plugins:
-- jekyll-remote-theme # add this line to the plugins list if you already have one
