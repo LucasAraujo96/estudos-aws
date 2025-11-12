@@ -43,14 +43,18 @@ body{
 }
 .btn{display:inline-block;padding:10px 14px;margin-top:12px;border-radius:8px;font-weight:600;text-decoration:none;color:#fff;background:#0ea5a4;}
 .btn.secondary{background:transparent;color:#0f172a;border:1px solid #0ea5a4}
+.btn:focus-visible{outline:2px solid #111827; outline-offset:2px}
+.badges{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+.badges span{font-size:12px;background:#eef2f6;border:1px solid #e5e7eb;border-radius:999px;padding:6px 10px;color:#0f172a}
 /* NOTA */
-.note{background:#ffffff;border-left:4px solid var(--accent);color:#334155;padding:12px 14px;border-radius:8px;margin:12px 0}
+.note{background:#ffffff;border-left:4px solid var(--accent);color:#1f2937;padding:12px 14px;border-radius:8px;margin:12px 0}
 /* TABELAS */
 table{border-collapse:separate;border-spacing:0;width:100%;margin:12px 0;background:#fff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;}
 th{background:#0ea5a4;color:#fff;padding:10px;text-align:left;font-weight:700;}
 td{padding:10px;border-top:1px solid #eef2f6;color:#0f172a;}
 tr:nth-child(even) td{background:#f9fbfc}
 a{color:var(--link)}
+a:focus-visible{outline:2px solid #111827; outline-offset:2px}
 .footer{text-align:center;margin:40px auto 20px;color:#6b7280;font-size:0.9rem;}
 @media(max-width:900px){ .hero{grid-template-columns:1fr;} }
 </style>
@@ -60,15 +64,18 @@ a{color:var(--link)}
 <section class="hero">
   <div>
     <h1>📘 Portfólio — Estudos AWS</h1>
-    <p><strong>Lucas Araujo</strong> · Catálogo de laboratórios, cursos e PoCs realizados no <em>AWS Skill Builder</em>.  
+    <p><strong>Lucas Araujo</strong> · Catálogo de laboratórios, cursos e PoCs realizados no <em>AWS Skill Builder</em>.
     Centraliza experiências práticas e aprendizados em arquitetura, observabilidade e FinOps.</p>
-    <a href="#-2-laboratórios-aws-realizados" class="btn">📂 Ver Labs</a>
-    <a href="#-5-próximos-estudos--pendências" class="btn secondary">📈 Próximos Estudos</a>
+    <a href="#labs" class="btn" aria-label="Ir para a lista de Laboratórios AWS">📂 Ver Labs</a>
+    <a href="#proximos" class="btn secondary" aria-label="Ir para Próximos Estudos">📈 Próximos Estudos</a>
+    <div class="badges" aria-label="Principais temas">
+      <span>AWS</span><span>Serverless</span><span>FinOps</span><span>Observability</span><span>Networking</span>
+    </div>
   </div>
-  <div class="avatar">Lucas<br>Araujo</div>
+  <div class="avatar" role="img" aria-label="Avatar estilizado de Lucas Araujo" title="Lucas Araujo">Lucas<br>Araujo</div>
 </section>
 
-<div class="note">
+<div class="note" role="note" aria-label="Nota sobre confidencialidade">
 ⚠️ <strong>Nota:</strong> Este portfólio contém apenas estudos e laboratórios públicos realizados na AWS Skill Builder.  
 Nenhuma informação de clientes, credenciais ou ambientes privados é divulgada aqui.
 </div>
@@ -76,26 +83,26 @@ Nenhuma informação de clientes, credenciais ou ambientes privados é divulgada
 ---
 
 ## 📑 Table of Contents
-- [1. Visão Geral](#-1-visão-geral)
-- [2. Laboratórios AWS Realizados](#-2-laboratórios-aws-realizados)
-  - [2.1 Builder Labs (Práticos)](#-21-builder-labs-práticos)
-  - [2.2 Cursos Digitais (Conceituais)](#-22-cursos-digitais-conceituais)
-  - [2.3 Planos de Aprendizado](#-23-planos-de-aprendizado)
-- [3. Projetos e PoCs Realizados](#-3-projetos-e-pocs-realizados)
-- [4. Conceitos Importantes Estudados](#-4-conceitos-importantes-estudados)
-- [5. Próximos Estudos / Pendências](#-5-próximos-estudos--pendências)
-- [6. Ferramentas e Referências](#-6-ferramentas-e-referências)
+- [1. Visão Geral](#visao-geral)
+- [2. Laboratórios AWS Realizados](#labs)
+  - [2.1 Builder Labs (Práticos)](#labs-builder)
+  - [2.2 Cursos Digitais (Conceituais)](#labs-cursos)
+  - [2.3 Planos de Aprendizado](#labs-planos)
+- [3. Projetos e PoCs Realizados](#pocs)
+- [4. Conceitos Importantes Estudados](#conceitos)
+- [5. Próximos Estudos / Pendências](#proximos)
+- [6. Ferramentas e Referências](#refs)
 
 ---
 
-## 🧭 1. Visão Geral
+## 🧭 1. Visão Geral {#visao-geral}
 O projeto **Estudos AWS** reúne laboratórios práticos, PoCs e comparativos entre serviços AWS, com foco em arquitetura, observabilidade e otimização de custos.  
 A metodologia aplicada combina experimentação em ambientes de laboratório (Skill Builder) com análise de casos reais e boas práticas de arquitetura em nuvem.
 
 ---
 
-## ☁️ 2. Laboratórios AWS Realizados
-### 🧪 2.1 Builder Labs (Práticos)
+## ☁️ 2. Laboratórios AWS Realizados {#labs}
+### 🧪 2.1 Builder Labs (Práticos) {#labs-builder}
 
 | Data | Nome do Laboratório | Nível | Duração | Idioma | Foco Técnico |
 |------|----------------------|--------|----------|----------|---------------|
@@ -129,7 +136,7 @@ A metodologia aplicada combina experimentação em ambientes de laboratório (Sk
 
 ---
 
-### 🎓 2.2 Cursos Digitais (Conceituais)
+### 🎓 2.2 Cursos Digitais (Conceituais) {#labs-cursos}
 
 | Data | Nome do Curso | Nível | Duração | Idioma | Foco Técnico |
 |------|----------------|--------|----------|----------|---------------|
@@ -163,7 +170,7 @@ A metodologia aplicada combina experimentação em ambientes de laboratório (Sk
 
 ---
 
-### 🗂️ 2.3 Planos de Aprendizado
+### 🗂️ 2.3 Planos de Aprendizado {#labs-planos}
 
 | Nome do Plano | Nível | Duração | Foco Técnico |
 |----------------|--------|----------|---------------|
@@ -172,7 +179,7 @@ A metodologia aplicada combina experimentação em ambientes de laboratório (Sk
 
 ---
 
-## 🧱 3. Projetos e PoCs Realizados
+## 🧱 3. Projetos e PoCs Realizados {#pocs}
 ### 3.1 Plataforma EdTech — Aulas ao Vivo (BigBlueButton) em AWS
 
 > **Resumo:** Implantação de BigBlueButton (videoconferência educacional) com balanceamento, camadas de segurança e observabilidade, priorizando estabilidade nas aulas e gravações.
@@ -196,6 +203,12 @@ A metodologia aplicada combina experimentação em ambientes de laboratório (Sk
 
 > **Contexto:** algumas distribuições de CDN consumiam **~30 TB/mês**. O objetivo foi reduzir custo de transferência e requisições ao origin **apenas com ajustes de cache e políticas**, sem alterar a aplicação.
 
+**Diagnóstico inicial**
+- Levantamento no **CloudWatch/CloudFront** (Requests, **BytesDownloadedFromOrigin**, CacheHitRate).
+- **Ranking por consumo** para priorização: **Top 5 distribuições** somavam **~100 TB/mês** de tráfego.
+- Amostragem de **status de cache** (Hit/Miss/Expired) e análise por **behavior** (HTML x estáticos).
+- Habilitação/validação de **Standard Logs** em S3 e consultas exploratórias em **Athena**.
+
 **Ações implementadas**
 - **Readequação de Policies**
   - Separação por tipo de conteúdo (**behaviors**):
@@ -210,7 +223,7 @@ A metodologia aplicada combina experimentação em ambientes de laboratório (Sk
   - **Standard Logs** habilitados em S3 para todas as distribuições.
   - **Athena** configurado para consultas (top paths, user-agents, geo, cache status).
   - Painel de métricas (CloudFront/CloudWatch): `CacheHitRate`, `BytesFromOrigin`, `Requests`, `4xx/5xx`, `OriginLatency`.
-  - **Real-Time Logs** ativado temporariamente nas distribuições mais caras para diagnóstico fino.
+  - **Real-Time Logs** ativado **temporariamente** nas distribuições com maior custo para diagnóstico fino (gera alto volume e custo, usar por janelas curtas).
 
 **Resultados (baseline esperado)**
 - **Cache Hit Rate (estáticos)**: +**10–25 pp** sobre o valor inicial.
@@ -218,31 +231,15 @@ A metodologia aplicada combina experimentação em ambientes de laboratório (Sk
 - **Invalidations**: redução relevante após versionamento por hash.
 - **Tempo de carregamento**: melhora perceptível para usuários (mais hits na borda).
 
-**Runbook de Release**
-1. Build gera **assets com hash**.
-2. Publica assets → aguarda propagação CDN.
-3. Invalidate **somente** `/index.html` (quando necessário).
-4. Monitorar `CacheHitRate` e `BytesFromOrigin` nas 24–72h seguintes.
-5. Ajustar TTL/policies conforme padrões reais de acesso.
-
-**KPIs para acompanhamento contínuo**
-- `CacheHitRate` (meta estáticos: **>90%**).
-- `BytesDownloadedFromOrigin` (tendência decrescente).
-- `Requests to Origin` por behavior.
-- `TotalErrorRate (4xx/5xx)` e `OriginLatency`.
-- Contagem de **Invalidations** mensais.
-
 > **Nota:** todos os dados foram analisados de forma agregada e **sem identificação de clientes** ou IDs de distribuição.
-
 
 ---
 
-## 🔍 4. Conceitos Importantes Estudados
-## Conceitos Importantes Estudados
+## 🔍 4. Conceitos Importantes Estudados {#conceitos}
 
 ### Amazon Aurora (MySQL/PostgreSQL-compatible)
 - **Arquitetura:** storage distribuído (6 cópias em 3 AZs) e compute separado do storage.  
-- **Failover:** promoção automática de *reader* para *writer* (~<30s) com **failover tiers**.  
+- **Failover:** promoção automática de *reader* para *writer* (tipicamente dezenas de segundos) com **failover tiers**.  
 - **Escala de leitura:** até **15 Aurora Replicas**. **Endpoints:** *cluster* (RW), *reader* (R), *custom* (subset).  
 - **Backups & Restauração:** **PITR** contínuo + snapshots autom./manuais.  
 - **Serverless v2:** escala por **ACUs** em tempo real (carga variável).  
@@ -254,7 +251,7 @@ A metodologia aplicada combina experimentação em ambientes de laboratório (Sk
 - **Cobrança:** por **invocações + duração (ms)** e memória configurada.  
 - **Escala automática:** eventos (S3, API Gateway, SQS, EventBridge…).  
 - **Concorrência:** gerenciada; **reserved/provisioned concurrency** para latência estável.  
-- **Rede:** execução em **VPC** quando precisa acessar recursos privados.  
+- **Rede:** execução em **VPC** quando precisa acessar recursos privados (networking atual é baseado em Hyperplane, com criação elástica de ENIs).  
 - **Observabilidade:** CloudWatch Logs/Metrics, **X-Ray**; idempotência para reprocessos.  
 - **Boas práticas:** funções pequenas e focadas; mitigar *cold start* com **provisioned concurrency**; usar **SQS** para suavizar picos.
 
@@ -264,6 +261,11 @@ A metodologia aplicada combina experimentação em ambientes de laboratório (Sk
 - **Segurança:** bloquear acesso direto ao bucket (OAC), **AWS WAF** opcional, *signed URLs/cookies*.  
 - **Custos:** egress mais barato via CloudFront; invalidações cobram após franquia.  
 - **Boas práticas:** versionar assets (*cache-busting*); TTL alto para estáticos e baixo/sem cache para HTML.
+
+**Notas de implementação (OAC + SPA)**
+- Se usar **OAC**, configure a origem do CloudFront para o **endpoint REST do S3** (não o *Static Website Hosting*).  
+- Para **SPAs/rotas amigáveis**, use **Custom Error Responses** no CloudFront: mapear **403/404 → /index.html** retornando **200** (e ajuste TTL de erros).  
+- Caso precise do website endpoint (redireção/index automático), não use OAC; em vez disso, controle acesso por políticas públicas restritas + WAF.
 
 ### Auto Scaling (EC2/ECS)
 - **ASG:** define **min/desired/max** com políticas **target tracking**, **step** e **scheduled**.  
@@ -278,15 +280,17 @@ A metodologia aplicada combina experimentação em ambientes de laboratório (Sk
 - **Segurança:** IAM *least-privilege*, **KMS**, **Secrets Manager**/**Parameter Store**.  
 - **FinOps:** **Savings Plans/RI** (EC2/RDS), **S3 Lifecycle** (IA/Glacier), **CloudFront TTL** e *cache policies*, **AWS Budgets + alerts**.
 
+---
+
+## 🧩 5. Próximos Estudos / Pendências {#proximos}
+- **Aurora Global Database – DR drill:** simular *failover/cutover* e medir RTO/RPO.  
+- **Lambda + SQS + DLQ:** padrão antipico e idempotência ponta-a-ponta.  
+- **OAC + S3 + SPA routing:** playbook de 403/404 → `/index.html` (200) + TTL de erro.  
+- **Budgets + Cost Anomaly Detection:** alertas via SNS/Email e classificação por tag.
 
 ---
 
-## 🧩 5. Próximos Estudos / Pendências
-*(Mantido conforme o modelo anterior, com adição futura de novas metas)*
-
----
-
-## 🧰 6. Ferramentas e Referências
+## 🧰 6. Ferramentas e Referências {#refs}
 - AWS Skill Builder  
 - AWS Documentation  
 - AWS Architecture Center  
