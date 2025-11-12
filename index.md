@@ -173,12 +173,111 @@ A metodologia aplicada combina experimentação em ambientes de laboratório (Sk
 ---
 
 ## 🧱 3. Projetos e PoCs Realizados
-*(Mantido igual à versão anterior, com adições futuras conforme evolução dos projetos)*
+### 3.1 Plataforma EdTech — Aulas ao Vivo (BigBlueButton) em AWS
+
+> **Resumo:** Implantação de BigBlueButton (videoconferência educacional) com balanceamento, camadas de segurança e observabilidade, priorizando estabilidade nas aulas e gravações.
+
+**Objetivos**
+- Aulas ao vivo estáveis para turmas simultâneas.
+- Gravações acessíveis sob demanda.
+- Camada WAF + TLS end-to-end.
+- Operação simples (runbook + alarmes).
+
+**Stack principal**
+- **Rede:** VPC (subnets públicas/privadas), NAT, SGs.
+- **Fronteira:** Route 53 (DNS), ACM (TLS), **AWS WAF**.
+- **Tráfego:** **ALB** (HTTP/2 + WebSocket).
+- **Compute:** **EC2** (pool BBB).
+- **Banco:** **Amazon RDS** (MySQL) – metadados/sessões.
+- **Armazenamento:** **S3** (gravações), ciclo de vida/Intelligent-Tiering.
+- **Observabilidade:** CloudWatch (métricas/logs), Alarmes, Dashboards.
+
+### 3.2 FinOps — CloudFront (Overview Anônimo)
+
+> **Contexto:** algumas distribuições de CDN consumiam **~30 TB/mês**. O objetivo foi reduzir custo de transferência e requisições ao origin **apenas com ajustes de cache e políticas**, sem alterar a aplicação.
+
+**Ações implementadas**
+- **Readequação de Policies**
+  - Separação por tipo de conteúdo (**behaviors**):
+    - **HTML**: cache curto ou desabilitado; respeita `Cache-Control` do origin.
+    - **Estáticos versionados** (CSS/JS/IMG, `/assets/*`): **cache longo** (dias/semanas).
+  - Remoção de variáveis que quebravam cache em estáticos:
+    - **Query strings / Cookies / Headers** → **None/Whitelist mínimo**.
+- **TTL de Estáticos**
+  - `min=1h`, `default=7d`, `max=30d` (ajustado conforme criticidade).
+  - Adoção/validação de **file name hashing** (`app.8f2a.js`) para evitar invalidações amplas.
+- **Logs e Observabilidade**
+  - **Standard Logs** habilitados em S3 para todas as distribuições.
+  - **Athena** configurado para consultas (top paths, user-agents, geo, cache status).
+  - Painel de métricas (CloudFront/CloudWatch): `CacheHitRate`, `BytesFromOrigin`, `Requests`, `4xx/5xx`, `OriginLatency`.
+  - **Real-Time Logs** ativado temporariamente nas distribuições mais caras para diagnóstico fino.
+
+**Resultados (baseline esperado)**
+- **Cache Hit Rate (estáticos)**: +**10–25 pp** sobre o valor inicial.
+- **BytesDownloadedFromOrigin**: queda **significativa** (correlacionada ao aumento de TTL e eliminação de variações).
+- **Invalidations**: redução relevante após versionamento por hash.
+- **Tempo de carregamento**: melhora perceptível para usuários (mais hits na borda).
+
+**Runbook de Release**
+1. Build gera **assets com hash**.
+2. Publica assets → aguarda propagação CDN.
+3. Invalidate **somente** `/index.html` (quando necessário).
+4. Monitorar `CacheHitRate` e `BytesFromOrigin` nas 24–72h seguintes.
+5. Ajustar TTL/policies conforme padrões reais de acesso.
+
+**KPIs para acompanhamento contínuo**
+- `CacheHitRate` (meta estáticos: **>90%**).
+- `BytesDownloadedFromOrigin` (tendência decrescente).
+- `Requests to Origin` por behavior.
+- `TotalErrorRate (4xx/5xx)` e `OriginLatency`.
+- Contagem de **Invalidations** mensais.
+
+> **Nota:** todos os dados foram analisados de forma agregada e **sem identificação de clientes** ou IDs de distribuição.
+
 
 ---
 
 ## 🔍 4. Conceitos Importantes Estudados
-*(Mantido conforme o modelo anterior)*
+## Conceitos Importantes Estudados
+
+### Amazon Aurora (MySQL/PostgreSQL-compatible)
+- **Arquitetura:** storage distribuído (6 cópias em 3 AZs) e compute separado do storage.  
+- **Failover:** promoção automática de *reader* para *writer* (~<30s) com **failover tiers**.  
+- **Escala de leitura:** até **15 Aurora Replicas**. **Endpoints:** *cluster* (RW), *reader* (R), *custom* (subset).  
+- **Backups & Restauração:** **PITR** contínuo + snapshots autom./manuais.  
+- **Serverless v2:** escala por **ACUs** em tempo real (carga variável).  
+- **Global Database:** replicação *cross-region* de baixa latência (DR/leitura global).  
+- **Segurança:** VPC, **KMS**, **IAM DB Auth**, **TLS**, *parameter/option groups*.  
+- **Boas práticas:** relatórios pesados no **reader endpoint**; monitorar **CPU**, **FreeableMemory**, **BufferCacheHitRatio**, **Deadlocks**, **ReplicaLag**.
+
+### AWS Lambda (Serverless Compute)
+- **Cobrança:** por **invocações + duração (ms)** e memória configurada.  
+- **Escala automática:** eventos (S3, API Gateway, SQS, EventBridge…).  
+- **Concorrência:** gerenciada; **reserved/provisioned concurrency** para latência estável.  
+- **Rede:** execução em **VPC** quando precisa acessar recursos privados.  
+- **Observabilidade:** CloudWatch Logs/Metrics, **X-Ray**; idempotência para reprocessos.  
+- **Boas práticas:** funções pequenas e focadas; mitigar *cold start* com **provisioned concurrency**; usar **SQS** para suavizar picos.
+
+### S3 + CloudFront (Site Estático & Distribuição Global)
+- **S3:** *static hosting* ou acesso privado via **OAC (Origin Access Control)**.  
+- **CloudFront:** CDN com **TTL**, *cache policies*, compressão (Gzip/Brotli), HTTP/2/3, TLS (ACM).  
+- **Segurança:** bloquear acesso direto ao bucket (OAC), **AWS WAF** opcional, *signed URLs/cookies*.  
+- **Custos:** egress mais barato via CloudFront; invalidações cobram após franquia.  
+- **Boas práticas:** versionar assets (*cache-busting*); TTL alto para estáticos e baixo/sem cache para HTML.
+
+### Auto Scaling (EC2/ECS)
+- **ASG:** define **min/desired/max** com políticas **target tracking**, **step** e **scheduled**.  
+- **Disparo por métricas:** **CPU**, **ALB RequestCount**, **SQS QueueLength**, métricas custom.  
+- **Health checks:** EC2/ELB; **termination policies**; **warm pools** para reduzir *cold start*.  
+- **Integração com ELB:** ALB/NLB distribuem tráfego para instâncias do ASG.  
+- **Boas práticas:** **launch templates** imutáveis; *user data* idempotente; AMI *baked*; **grace period**/**cooldown** adequados; **Mixed Instances + Spot** para reduzir custos.
+
+### Extras que Amarram Tudo
+- **Observabilidade:** CloudWatch (Logs/Metrics/Alarms), **X-Ray**, **CloudTrail**.  
+- **Rede:** VPC, subnets públicas/privadas, NAT, **Security Groups**, **NACLs**.  
+- **Segurança:** IAM *least-privilege*, **KMS**, **Secrets Manager**/**Parameter Store**.  
+- **FinOps:** **Savings Plans/RI** (EC2/RDS), **S3 Lifecycle** (IA/Glacier), **CloudFront TTL** e *cache policies*, **AWS Budgets + alerts**.
+
 
 ---
 
