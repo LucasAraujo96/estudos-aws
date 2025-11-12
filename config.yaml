@@ -1,0 +1,7 @@
+theme: jekyll-theme-cayman
+title: "Estudos AWS"
+description: "Catálogo Vivo — Laboratórios, PoCs e aprendizados AWS"
+show_downloads: false
+github:
+  is_project_page: true
+markdown: GFM
