@@ -272,7 +272,7 @@ A metodologia aplicada combina experimentação em ambientes de laboratório (Sk
 - **Integração com ELB:** ALB/NLB distribuem tráfego para instâncias do ASG.  
 - **Boas práticas:** **launch templates** imutáveis; *user data* idempotente; AMI *baked*; **grace period**/**cooldown** adequados; **Mixed Instances + Spot** para reduzir custos.
 
-### Extras que Amarram Tudo
+### Pontos importantes
 - **Observabilidade:** CloudWatch (Logs/Metrics/Alarms), **X-Ray**, **CloudTrail**.  
 - **Rede:** VPC, subnets públicas/privadas, NAT, **Security Groups**, **NACLs**.  
 - **Segurança:** IAM *least-privilege*, **KMS**, **Secrets Manager**/**Parameter Store**.  
